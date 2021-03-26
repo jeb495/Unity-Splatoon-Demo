@@ -5,94 +5,64 @@ using UnityEngine.EventSystems;
 
 public class ThirdPersonCam : MonoBehaviour
 {
-    #region 常量
+    #region Constant
 
     public const string INPUT_MOUSE_SCROLLWHEEL = "Mouse ScrollWheel";
-    public const string ERROR_UN_BINDCAM = "ThirdPersonCam脚本没有绑定摄像机!";
-    public const string ERROR_UN_PLAYER = "ThirdPersonCam脚本没有指定玩家";
+    public const string ERROR_UN_BINDCAM = "ThirdPersonCam脚本没有绑定摄像机!"; //chinese text says "The script does not bind the camera"
+    public const string ERROR_UN_PLAYER = "ThirdPersonCam脚本没有指定玩家"; //chinese text says "The script does not specify a player"
 
-    /// <summary>
-    /// 摄像机的基础方向
-    /// </summary>
+    /// The basic direction of the camera
     private Vector3 CamBaseAxis = Vector3.back;
 
-    /// <summary>
-    /// 摄像机和碰撞体的交点向摄像机的观察点移动的距离
-    /// </summary>
+    /// The distance from the intersection of the camera and the collision body to the observation point of the camera
     private float CollisionReturnDis = 0.5f;
 
     #endregion
 
-    #region 变量
+    #region Variable
 
-    /// <summary>
-    /// 摄像机
-    /// </summary>
+    /// Video camera
     private Transform mCamera;
 
-    /// <summary>
-    /// 玩家transform
-    /// </summary>
+    /// Player transform
     public Transform mPlayer;
 
-    /// <summary>
-    /// 角色中心点偏移
-    /// </summary>
+    /// Character center point offset
     public Vector3 mPivotOffset = new Vector3(0.0f, 1.0f, 0.0f);
 
-    /// <summary>
-    /// 水平瞄准速度
-    /// </summary>
+    /// Horizontal aiming speed
     public float mHorizontalAimingSpeed = 400.0f;
 
-    /// <summary>
-    /// 垂直瞄准速度
-    /// </summary>
+    /// Vertical aiming speed
     public float mVerticalAimingSpeed = 400.0f;
 
-    /// <summary>
-    /// 最大的垂直角度
-    /// </summary>
+    /// Maximum vertical angle
     public float mMaxVerticalAngle = 30.0f;
 
-    /// <summary>
-    /// 最小的垂直角度
-    /// </summary>
+    /// Minimum vertical angle
     public float mMinVerticalAngle = -60.0f;
 
-    /// <summary>
-    /// 基础摄像机偏移的倍率的最大值
-    /// </summary>
+    /// The maximum value of the magnification of the base camera shift
     public float mMaxDistance = 2.0f;
 
-    /// <summary>
-    /// 基础摄像机偏移的倍率的最小值
-    /// </summary>
+    /// The minimum value of the magnification of the base camera shift
     public float mMinDistance = 1.0f;
 
-    /// <summary>
-    /// 镜头推进的速度
-    /// </summary>
+    /// The speed of lens advance
     public float mZoomSpeed = 5.0f;
 
-    /// <summary>
-    /// 水平旋转的角度
-    /// </summary>
+    /// The angle of horizontal rotation
     private float mAngleH = 0.0f;
 
-    /// <summary>
-    /// 垂直旋转的角度
-    /// </summary>
+    /// Vertical rotation angle
     private float mAngleV = -30.0f;
 
-    /// <summary>
-    /// 基础摄像机偏移的倍率
-    /// </summary>
+    /// Base camera shift magnification
     private float mDistance = 0.0f;
 
     #endregion
 
-    #region 内置函数
+    #region Built-in function
 
     void Awake()
     {
@@ -140,19 +110,19 @@ public class ThirdPersonCam : MonoBehaviour
         camdir.Normalize();
         mCamera.position = lookatpos + camdir * mDistance;
 
-        // 计算碰撞后的摄像机点
+        // Calculate camera points after collision
         RaycastHit rayhit;
         bool hit = Physics.Raycast(lookatpos, camdir, out rayhit, mDistance);
         if (hit)
         {
-            // 屏蔽角色碰撞
+            // Block character collision
             bool charcol = rayhit.collider as CharacterController;
             if (!charcol)
             {
                 Vector3 modifypos = rayhit.normal * CollisionReturnDis * 2.0f;
                 mCamera.position = rayhit.point + modifypos;
 
-                // 距离修正在范围内(1, 避免摄像机穿插进入角色)
+                // The distance correction is within the range (1, to avoid the camera interspersed into the character)
                 float distance = Vector3.Distance(mCamera.position, lookatpos);
                 distance = Mathf.Clamp(distance, mMinDistance, mMaxDistance);
                 mCamera.position = lookatpos + camdir * distance + modifypos;
