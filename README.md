@@ -1,5 +1,5 @@
-# Unity仿Splatoon喷漆效果
+# Unity Splatoon Demo 
 
-# 文档
+# Documentation
 
-[Unity仿Splatoon喷漆效果](https://zhuanlan.zhihu.com/p/43050863)
+[Unity Splatoon Demo (Untranslated Documentation)](https://zhuanlan.zhihu.com/p/43050863)
