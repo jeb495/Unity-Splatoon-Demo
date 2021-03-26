@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class xEnumDefine//枚举定义类
+public class xEnumDefine//Enumeration definition class
 {
     public enum TeamFlag
     {

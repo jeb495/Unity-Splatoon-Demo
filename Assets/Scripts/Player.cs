@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
 
     private bool mUseTeam0 = true;
 
-    #region 内置函数
+    #region Built-in function
 
     private void Awake()
     {
@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
 
     #endregion
 
-    #region 函数
+    #region function
 
     private void UpdatePos()
     {
