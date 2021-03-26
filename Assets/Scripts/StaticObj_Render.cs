@@ -12,8 +12,8 @@ public class StaticObj_Render : MonoBehaviour
     private int mHeight = 128;
     private bool mNewMat = false;
 
-    public int mSimuBufWidth = 200;            // 模拟rendertexture的像素信息
-    public int mSimuBufHeight = 200;           // 模拟rendertexture的像素信息
+    public int mSimuBufWidth = 200;            // Simulated rendertexture pixel information
+    public int mSimuBufHeight = 200;           // Simulated rendertexture pixel information
     private List<int> mSimuBuf = new List<int>();
 
     private int mPositiveNum = 0;
@@ -39,7 +39,7 @@ public class StaticObj_Render : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        // 只执行一次 ......
+        // Only execute once
         if (PaintResourceManager.Instance != null)
         {
             if (mDecalTex == null)
@@ -57,7 +57,7 @@ public class StaticObj_Render : MonoBehaviour
     public void Render(Vector2 texcoord, Material quadmat, Color quadcolor, int coltype,
                         string decalname, float decalwidht, float decalheight, float decalrot)
     {
-        // 使用新材质 ...
+        // Use new material
         if (!mNewMat)
         {
             for (int i = 0; i < mMats.Length; i++ )
@@ -80,10 +80,9 @@ public class StaticObj_Render : MonoBehaviour
             mNewMat = true;
         }
 
-        // ...
         Graphics.SetRenderTarget(mDecalTex);
 
-        // 渲染一次全屏RT ...
+        // Render full screen once
         OnceRenderGlobalScreenRT(quadmat);
 
         PaintResourceManager.DecalInfo info = PaintResourceManager.Instance.GetDecalTex(decalname);
@@ -146,8 +145,8 @@ public class StaticObj_Render : MonoBehaviour
         WriteSimuBufData(width, height, texcoord, coltype);
     }
 
-    // 写入模拟数据 ......
-    // 这里会有精度丢失(贴图的覆盖区域不是正方形)
+    // Write simulation data ......
+    // There will be slight accuracy loss (the coverage area of the map is not square)
     private void WriteSimuBufData(float decalwid, float decalhei, Vector2 decaluv, int coltype)
     {
         int centerx = (int)(decaluv.x * mSimuBufWidth);
@@ -180,7 +179,7 @@ public class StaticObj_Render : MonoBehaviour
             }
         }
 
-        // 测试缓存数据是否和贴图数据一致 ......
+        // Test whether the cached data is consistent with the texture data
 #if false
 
         Texture2D testtex = new Texture2D(mSimuBufWidth, mSimuBufHeight, TextureFormat.RGB24, false);
@@ -259,7 +258,6 @@ public class StaticObj_Render : MonoBehaviour
         int pos = ( (mSimuBufHeight - 1) - centery) * mSimuBufWidth + centerx;
 
 
-        // 测试 ...
 #if false
         Texture2D testtex = new Texture2D(mSimuBufWidth, mSimuBufHeight, TextureFormat.RGB24, false);
         for (int j = 0; j < mSimuBufHeight; j++)
@@ -322,26 +320,10 @@ public class StaticObj_Render : MonoBehaviour
         mOnceRenderGScnRT = true;
     }
 
-    //bool IsCutoffShader(string shadername)
-    //{
-    //    return shadername.Contains("Cutoff");
-    //}
-
-    //bool IsMobileShader(string shadername)
-    //{
-    //    return shadername.Contains("Mobile");
-    //}
 
     void SetMaterial(Material mat)
     {
         mat.shader = Shader.Find("SpraySoldier/Mobile/StaticObjDecal");
         
-        //if (IsMobileShader(mat.shader.name))
-        //{
-        //    if (IsCutoffShader(mat.shader.name))
-        //        mat.shader = Shader.Find("SpraySoldier/Mobile/StaticObjCutoffDecal");
-        //    else
-        //        mat.shader = Shader.Find("SpraySoldier/Mobile/StaticObjDecal");
-        //}
     }
 }
