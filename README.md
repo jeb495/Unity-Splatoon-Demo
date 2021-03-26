@@ -1,4 +1,5 @@
 # Unity Splatoon Demo 
+Comments and various other things have been translated from chinese to english
 
 # Documentation
 
